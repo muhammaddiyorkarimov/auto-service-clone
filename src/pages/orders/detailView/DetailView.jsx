@@ -19,7 +19,7 @@ function DetailView() {
   const [openModal, setOpenModal] = useState(false);
   const [workers, setWorkers] = useState({});
   const [workerIds, setWorkerIds] = useState([]);
-const [workersData, setWorkersData] = useState({});
+  const [workersData, setWorkersData] = useState({});
 
   const fetchManagerForOrder = useCallback(() => {
     if (data?.manager) {
@@ -28,31 +28,29 @@ const [workersData, setWorkersData] = useState({});
   }, [data?.manager]);
   const { data: managerById } = useFetch(fetchManagerForOrder);
 
-  // const fetchWorkersData = useCallback(async () => {
-  //   if (workerIds.length > 0) {
-  //     const workersResponse = await Promise.all(
-  //       workerIds.map((id) => OrderServices.getOrdersById(id))
-  //     );
-  //     console.log(workersResponse)
-  //     const workers = workersResponse.reduce((acc, worker) => {
-  //       acc[worker.id] = worker; // Worker id orqali ma'lumotlarni saqlash
-  //       return acc;
-  //     }, {});
-  //     setWorkersData(workers);
-  //   }
-  // }, [workerIds]);
-  
-  // useEffect(() => {
-  //   if (data?.services) {
-  //     const uniqueWorkerIds = [...new Set(data?.services.map((service) => service.worker))];
-  //     setWorkerIds(uniqueWorkerIds);
-  //   }
-  // }, [data]);
-  
-  // useEffect(() => {
-  //   fetchWorkersData();
-  // }, [workerIds, fetchWorkersData]);
+  const fetchWorkersData = useCallback(async () => {
+    if (workerIds?.length > 0) {
+      const workersResponse = await Promise.all(
+        workerIds?.map((id) => OrderServices.getOrdersById(id))
+      );
+      const workers = workersResponse?.reduce((acc, worker) => {
+        acc[worker.id] = worker; // Worker id orqali ma'lumotlarni saqlash
+        return acc;
+      }, {});
+      setWorkersData(workers);
+    }
+  }, [workerIds]);
 
+  useEffect(() => {
+    if (data?.services) {
+      const uniqueWorkerIds = [...new Set(data?.services.map((service) => service.id))];
+      setWorkerIds(uniqueWorkerIds);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    fetchWorkersData();
+  }, [workerIds, fetchWorkersData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -182,7 +180,7 @@ const [workersData, setWorkersData] = useState({});
                 <Typography variant="subtitle1"><strong>Комментарий:</strong> {data.description}</Typography>
 
                 <Divider style={{ margin: '10px 0' }} />
-                <Typography variant="subtitle1"><strong>Менеджер:</strong> {managerById?.first_name + ' ' + managerById?.last_name}</Typography>
+                <Typography variant="subtitle1"><strong>Менеджер:</strong> {managerById?.first_name ? managerById?.first_name + ' ' + managerById?.last_name : '_'}</Typography>
                 <table className="oreder-details-wrapper">
                   <thead>
                     <tr>
@@ -225,14 +223,19 @@ const [workersData, setWorkersData] = useState({});
                     <th colspan="4">Услуги</th>
                   </tr>
                   <tr>
-                    {/* <th style={{ border: '1px solid black' }}>Сотрудник</th> */}
+                    <th style={{ border: '1px solid black' }}>Сотрудник</th>
                     <th style={{ border: '1px solid black' }}>Н/Ч</th>
                     <th style={{ border: '1px solid black' }}>Название услуги</th>
                     <th style={{ border: '1px solid black' }}>Общий</th>
                   </tr>
                   {data?.services?.map((service, index) => (
                     <tr key={index}>
-                      {/* <td style={{ border: '1px solid black' }}>{service.worker.first_name + ' ' + service.worker.last_name}</td> */}
+                      {console.log(workersData[service.id])}
+                      <td style={{ border: '1px solid black' }}>
+                        {workersData[service.id]
+                          ? `${workersData[service.id].worker.first_name} ${workersData[service.id].worker.last_name}`
+                          : '__'}
+                      </td>
                       <td style={{ border: '1px solid black' }}>{service.part}</td>
                       <td style={{ border: '1px solid black' }}>{service.service?.name}</td>
                       <td style={{ border: '1px solid black' }}>{formatNumberWithCommas(service.total)}</td>
@@ -274,7 +277,7 @@ const [workersData, setWorkersData] = useState({});
                 </tr>
                 <tr>
                   <th style={{ border: '1px solid black' }}>
-                  Госномер: <p>{data?.car?.state_number}</p>
+                    Госномер: <p>{data?.car?.state_number}</p>
                   </th>
 
                   {/* Yurgan kilometrlari shart bo'yicha */}
@@ -326,19 +329,24 @@ const [workersData, setWorkersData] = useState({});
                 <th style={{ border: '1px solid black' }} colspan="4">Услуги</th>
               </tr>
               <tr>
-                {/* <th style={{ border: '1px solid black' }}>Сотрудник</th> */}
+                <th style={{ border: '1px solid black' }}>Сотрудник</th>
                 <th style={{ border: '1px solid black' }}>Н/Ч</th>
                 <th style={{ border: '1px solid black' }}>Название услуги</th>
                 <th style={{ border: '1px solid black' }}>Общий</th>
               </tr>
               {data?.services?.map((service, index) => (
-                <tr key={index}>
-                  {/* <td style={{ border: '1px solid black' }}>{service.worker.first_name + ' ' + service.worker.last_name}</td> */}
-                  <td style={{ border: '1px solid black' }}>{service.part}</td>
-                  <td style={{ border: '1px solid black' }}>{service.service?.name}</td>
-                  <td style={{ border: '1px solid black' }}>{formatNumberWithCommas(service.total)}</td>
-                </tr>
-              ))}
+                    <tr key={index}>
+                      {console.log(workersData[service.id])}
+                      <td style={{ border: '1px solid black' }}>
+                        {workersData[service.id]
+                          ? `${workersData[service.id].worker.first_name} ${workersData[service.id].worker.last_name}`
+                          : '__'}
+                      </td>
+                      <td style={{ border: '1px solid black' }}>{service.part}</td>
+                      <td style={{ border: '1px solid black' }}>{service.service?.name}</td>
+                      <td style={{ border: '1px solid black' }}>{formatNumberWithCommas(service.total)}</td>
+                    </tr>
+                  ))}
             </table>
           </CardContent>
           <div className="print-info">
