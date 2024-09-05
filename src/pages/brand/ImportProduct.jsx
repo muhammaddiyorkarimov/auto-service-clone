@@ -278,14 +278,14 @@ function Import() {
         }
     };
 
-
+console.log(formData)
     const handleSubmit = async () => {
         const providerId = selectedProvider;
 
-        if (!formData.paidAmount || formData.paidAmount <= 0) {
-            alert("Пожалуйста, введите оплаченную сумму!");
-            return;
-        }
+        // if (!formData.paidAmount || formData.paidAmount <= 0 || formData.paidAmount === 0) {
+        //     alert("Пожалуйста, введите оплаченную сумму!");
+        //     return;
+        // }
 
         setLoading(true);
         const lastProductIndex = selectedProducts.length - 1;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL
-const API_URL = 'https://autoservicefassco.pythonanywhere.com';
+const API_URL = 'https://api.davrmotors.fassco.uz/';
 
 // Create an instance of axios
 const api = axios.create({

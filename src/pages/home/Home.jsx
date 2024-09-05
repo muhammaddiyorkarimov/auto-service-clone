@@ -53,21 +53,23 @@ function Home() {
         <div className="extra-items">
           <div className="header">
             <div className="items-wrapper">
-              {topCalculateError ? (
-                <div>Error loading calculation data</div>
-              ) : (
-                (calculateData.length > 0 ? calculateData : [
+              <div className="items">
+                {/* Always render the cards, even if calculateData is empty */}
+                {(calculateData && calculateData.length > 0 ? calculateData : [
                   { title: "Расход", value: "0", img: img1 },
                   { title: "Приход", value: "0", img: img2 },
                   { title: "Чистый доход", value: "0", img: img3 },
                 ])?.map((item, index) => (
                   <div className="item" key={index}>
                     <div className="about">
-                      {topCalculateLoading ? <BiLoader /> : (
+                      {/* Show loader if data is still loading, otherwise display values */}
+                      {topCalculateLoading ? (
+                        <BiLoader />
+                      ) : (
                         <>
                           <div className="title">{item.title}</div>
                           <div className="description" style={{ color: descriptionColors[index] }}>
-                            {item.value || "0"} СУМ
+                            {item.value || "0"} СУМ {/* Fallback to "0" if the value is missing */}
                           </div>
                         </>
                       )}
@@ -76,9 +78,8 @@ function Home() {
                       <img src={item.img} alt={item.title} />
                     </div>
                   </div>
-                ))
-              )}
-
+                ))}
+              </div>
 
               <div className="benefit-branch">
                 <div className="item">
@@ -125,12 +126,7 @@ function Home() {
             <div className="cards">
               <div className="top-products">
                 <div className="title">Топ товары</div>
-                <TopTableComponent
-                  loading={topProductsLoading}
-                  error={topProductsError ? 'Error loading top products' : null}
-                  columns={productColumns}
-                  data={productData}
-                />
+                <TopTableComponent loading={topProductsLoading} error={topProductsError} columns={productColumns} data={productData} />
               </div>
             </div>
           </div>
