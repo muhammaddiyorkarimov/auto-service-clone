@@ -122,7 +122,7 @@ function OurProduct() {
             { type: 'select', label: 'Единица', name: 'unit', required: true, options: unitOptions.map(p => ({ value: p.id, label: p.name })) },
             { type: 'number', label: 'Цена покупки', name: 'import_price', required: true },
             { type: 'number', label: 'Цена продажи', name: 'export_price' },
-            { type: 'number', label: 'Макс. скидка', name: 'max_discount', required: true },
+            { type: 'number', label: 'Макс. скидка', name: 'max_discount', required: true,  },
             {
                 type: 'select', label: 'Поставщик', name: 'provider', required: true, options: provider?.map(p => ({ value: p.id, label: p.name }))
             }

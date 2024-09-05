@@ -63,7 +63,7 @@ function OrderProduct({ onTotalChange, orderId, onSave }) {
         setFormConfig([
             { type: 'select', label: 'Товар', name: 'product', options: products?.map(p => ({ label: p.name, value: p.id })), required: true },
             { type: 'number', label: 'Количество', name: 'amount', required: true },
-            { type: 'number', label: 'Скидка', name: 'discount' },
+            { type: 'number', label: 'Скидка', name: 'discount', value: 0 },
             { type: 'number', label: 'Итого', name: 'total', required: true, disabled: true },
         ]);
         setIsAdding(true);

@@ -17,6 +17,9 @@ function DetailView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [workers, setWorkers] = useState({});
+  const [workerIds, setWorkerIds] = useState([]);
+const [workersData, setWorkersData] = useState({});
 
   const fetchManagerForOrder = useCallback(() => {
     if (data?.manager) {
@@ -24,12 +27,32 @@ function DetailView() {
     }
   }, [data?.manager]);
   const { data: managerById } = useFetch(fetchManagerForOrder);
-  const fetchWorkerForService = useCallback(() => {
-    if (data?.services?.id) {
-      return OrderServices.getOrdersById(data?.services?.id);
-    }
-  }, [data?.services?.id]);
-  const { data: workerById } = useFetch(fetchWorkerForService);
+
+  // const fetchWorkersData = useCallback(async () => {
+  //   if (workerIds.length > 0) {
+  //     const workersResponse = await Promise.all(
+  //       workerIds.map((id) => OrderServices.getOrdersById(id))
+  //     );
+  //     console.log(workersResponse)
+  //     const workers = workersResponse.reduce((acc, worker) => {
+  //       acc[worker.id] = worker; // Worker id orqali ma'lumotlarni saqlash
+  //       return acc;
+  //     }, {});
+  //     setWorkersData(workers);
+  //   }
+  // }, [workerIds]);
+  
+  // useEffect(() => {
+  //   if (data?.services) {
+  //     const uniqueWorkerIds = [...new Set(data?.services.map((service) => service.worker))];
+  //     setWorkerIds(uniqueWorkerIds);
+  //   }
+  // }, [data]);
+  
+  // useEffect(() => {
+  //   fetchWorkersData();
+  // }, [workerIds, fetchWorkersData]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +89,7 @@ function DetailView() {
   function formatNumberWithCommas(number) {
     return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
+
 
 
   return (
@@ -167,15 +191,9 @@ function DetailView() {
                     </tr>
                     <tr>
                       <th style={{ border: '1px solid black' }}>Госномер: <p>{data?.car?.state_number}</p></th>
-                      {data?.car_kilometers_odo && (
-                        <th style={{ border: '1px solid black' }}>Пробег по одометру: <p>{data?.car_kilometers_odo} км</p></th>
-                      )}
-                      {data?.car_kilometers_ev && (
-                        <th style={{ border: '1px solid black' }}>Пробег по EV: <p>{data?.car_kilometers_ev} км</p></th>
-                      )}
-                      {data?.car_kilometers_hev && (
-                        <th style={{ border: '1px solid black' }}>Пробег по HEV: <p>{data?.car_kilometers_hev} км</p></th>
-                      )}
+                      <th style={{ border: '1px solid black' }}>Пробег по одометру: <p>{data?.car_kilometers_odo} км</p></th>
+                      <th style={{ border: '1px solid black' }}>Пробег по EV: <p>{data?.car_kilometers_ev} км</p></th>
+                      <th style={{ border: '1px solid black' }}>Пробег по HEV: <p>{data?.car_kilometers_hev} км</p></th>
                     </tr>
                   </thead>
                 </table>

@@ -113,7 +113,7 @@ function ProviderC() {
         setFormConfig([
             { type: 'text', label: 'Имя', name: 'name', required: true },
             { type: 'text', label: 'Номер телефона', name: 'phone_number', required: true },
-            { type: 'number', label: 'Задолженность', name: 'debt', required: true },
+            { type: 'number', label: 'Задолженность', name: 'debt', required: true, value: 0 },
         ]);
         setAddOpen(true);
     };

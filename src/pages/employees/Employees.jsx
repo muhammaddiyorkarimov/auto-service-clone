@@ -54,7 +54,8 @@ function Employees() {
 
     const handleAdd = () => {
         setFormConfig([
-            { type: 'text', label: "Имя пользователя", name: 'username', required: true },
+            { type: 'text', label: "Логин", name: 'username', required: true },
+            { type: 'text', label: "Пароль", name: 'password', required: true },
             { type: 'text', label: "Имя", name: 'first_name' },
             { type: 'text', label: "Фамилия", name: 'last_name' },
             { type: 'text', label: "Номер телефона", name: 'phone_number' },
@@ -65,12 +66,21 @@ function Employees() {
 
     const createStaff = async (item) => {
         try {
+            const staffWithPassword = { ...item, password: '12345678' };
             const newStaff = await EmployeesService.postEmployees(item);
             setEmployeesData([...employessData, newStaff]);
             setSuccessMsg("Сотрудник добавлен");
             setSnackbarOpen(true);
         } catch (error) {
-            setErrorMsg(error.message || "Ошибка при добавлении сотрудника!");
+            console.log(error.response.data);
+
+            if (error.response && Array.isArray(error.response.data)) {
+                const errorMessages = error.response.data.map(err => err).join(', ');
+                setErrorMsg(errorMessages);
+            } else {
+                setErrorMsg(error.message || "Ошибка при добавлении сотрудника!");
+            }
+
             setSnackbarOpen(true);
         } finally {
             setAddOpen(false);

@@ -8,7 +8,7 @@ function AddProvider({ addProvider, onSuccess }) {
     const [formConfig] = useState([
         { type: 'text', label: 'Название', name: 'name' },
         { type: 'text', label: 'Номер телефона', name: 'phone_number' },
-        { type: 'number', label: 'Задолженность', name: 'debt' },
+        { type: 'number', label: 'Задолженность', name: 'debt', value: 0 },
     ]);
     const [formData, setFormData] = useState({
         name: '',
@@ -73,7 +73,7 @@ function AddProvider({ addProvider, onSuccess }) {
                 label={field.label}
                 name={field.name}
                 type={field.type}
-                value={formData[field.name]}
+                value={formData[field.name] || field.value}
                 onChange={handleChange}
                 fullWidth
                 size="small"

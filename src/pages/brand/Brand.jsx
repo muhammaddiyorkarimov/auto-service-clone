@@ -118,7 +118,7 @@ function Brand() {
         setFormConfig([
             { type: 'number', label: 'Количество', name: 'amount', required: true },
             { type: 'number', label: 'Сумма закупки', name: 'import_price', required: true },
-            { type: 'number', label: 'Задолженность', name: 'debt' },
+            { type: 'number', label: 'Задолженность', name: 'debt', value: 0 },
             { type: 'select', label: 'Продукт', name: 'product', options: ourProduct && ourProduct?.results?.map(p => ({ value: p.id, label: p.name })), required: true },
             { type: 'select', label: 'Поставщик', name: 'provider', options: provider && provider.map(p => ({ value: p.id, label: p.name })), required: true },
             { type: 'number', label: 'Общий', name: 'total', required: true },
@@ -252,7 +252,7 @@ function Brand() {
                             formConfig={[
                                 { type: 'text', label: 'Количество', name: 'amount', required: true },
                                 { type: 'number', label: 'Сумма закупки', name: 'import_price', required: true },
-                                { type: 'number', label: 'Задолженность', name: 'debt' },
+                                { type: 'number', label: 'Задолженность', name: 'debt', value: 0 },
                                 { type: 'select', label: 'Продукт', name: 'product', options: ourProduct && ourProduct?.results?.map(p => ({ value: p.id, label: p.name })), required: true },
                                 { type: 'select', label: 'Поставщик', name: 'provider', options: provider && provider.map(p => ({ value: p.id, label: p.name })), required: true },
                                 { type: 'number', label: 'Общий', name: 'total', required: true },

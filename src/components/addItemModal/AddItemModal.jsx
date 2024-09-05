@@ -10,17 +10,20 @@ function AddItemModal({ name, open, onClose, onSave, formConfig, expensesType })
   const [file, setFile] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
 
+  console.log(formData)
+
   useEffect(() => {
     const initialData = formConfig?.reduce((acc, field) => {
-      if (field.type === 'number' && (field.name === 'discount' || field.name === 'debt')) {
-        acc[field.name] = '0';
+      if (field.type === 'number') {
+        acc[field.name] = field.value || '0'; // Use field.value if it exists
       } else {
-        acc[field.name] = '';
+        acc[field.name] = field.value || '';  // Default to field.value or an empty string
       }
       return acc;
     }, {});
     setFormData(initialData);
   }, [formConfig]);
+  
 
   const formatNumberWithSpaces = (number) => {
     return number?.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -53,25 +56,30 @@ function AddItemModal({ name, open, onClose, onSave, formConfig, expensesType })
         errors[field.name] = `${field.label} поле обязательно для заполнения!`;
       }
     });
-
+  
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
     }
-
+  
     // Prepare the data for saving
     const rawData = { ...formData };
-    Object.keys(rawData).forEach(key => {
-      if (formConfig.some(f => f.type === 'number' && f.name === key)) {
-        rawData[key] = rawData[key].replace(/\s/g, '');
+    formConfig.forEach(field => {
+      if (formData[field.name] === undefined || formData[field.name] === '') {
+        rawData[field.name] = field.value || '';  // Fallback to initial value if not modified
       }
-      if (key === 'discount' || key === 'debt') {
-        rawData[key] = rawData[key] || '0';
+  
+      if (field.type === 'number') {
+        rawData[field.name] = rawData[field.name].replace(/\s/g, '');
+      }
+      if (field.name === 'discount' || field.name === 'debt') {
+        rawData[field.name] = rawData[field.name] || '0';
       }
     });
-
+  
     onSave(rawData, file);
   };
+  
 
   const renderFields = () => {
     return formConfig?.map((field, index) => {
@@ -85,7 +93,7 @@ function AddItemModal({ name, open, onClose, onSave, formConfig, expensesType })
                 label={field.label}
                 name={field.name}
                 type="text" 
-                value={formData[field.name] || ''}
+                value={formData[field.name] || field.value}
                 onChange={handleChange}
                 fullWidth
                 size="small"

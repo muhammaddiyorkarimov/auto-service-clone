@@ -45,7 +45,7 @@ function OrderingService({ onTotalChange, onSave }) {
             {
                 type: 'select', label: 'Сотрудник', name: 'worker', options: staffData?.map(p => ({
                     value: p.id,
-                    label: p.last_name ? `${p.first_name} ${p.last_name}` : `Ismsiz`
+                    label: p.first_name ? `${p.first_name} ${p.last_name}` : `Ismsiz`
                 })), required: true
             },
             { type: 'select', label: 'Услуга', name: 'service', options: services?.map(p => ({ value: p.id, label: p.name })), required: true },

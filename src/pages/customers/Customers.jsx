@@ -86,7 +86,7 @@ function Customers() {
             { type: 'text', label: 'Серия паспорта', name: 'passport_serial_numbers' },
             { type: 'text', label: 'Номер паспорта', name: 'passport_serial_letters' },
             { type: 'text', label: 'Адрес', name: 'address' },
-            { type: 'number', label: 'Задолженность', name: 'debt', required: true },
+            { type: 'number', label: 'Задолженность', name: 'debt', required: true, value: 0 },
         ]);
         setAddOpen(true);
     };

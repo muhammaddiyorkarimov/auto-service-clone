@@ -60,13 +60,14 @@ function Workers() {
             { type: 'text', label: "Фамилия", name: 'last_name' },
             { type: 'text', label: "Номер телефона", name: 'phone_number' },
             { type: 'text', label: "Профессия", name: 'position' },
-            { type: 'number', label: "часть", name: 'part' },
-            { type: 'number', label: "Зарплата", name: 'balance' },
+            { type: 'number', label: "часть", name: 'part', value: 0 },
+            { type: 'number', label: "Зарплата", name: 'balance', value: 0 },
         ])
         setAddOpen(true);
     }
 
     const createStaff = async (item) => {
+        console.log(item);
         try {
             const staffWithPassword = { ...item, password: '12345678' };
 
@@ -75,6 +76,7 @@ function Workers() {
             setSuccessMsg("Успешно добавлено");
             setSnackbarOpen(true);
         } catch (error) {
+            console.log(error)
             setErrorMsg(error.message || "Ошибка при добавлении рабочего!");
             setSnackbarOpen(true);
         } finally {

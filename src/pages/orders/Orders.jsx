@@ -73,7 +73,7 @@ function Orders() {
     const handleAdd = () => {
         setFormConfig([
             { type: 'number', label: "Оплачено", name: 'paid', required: true },
-            { type: 'number', label: 'Задолженность', name: 'debt', required: true },
+            { type: 'number', label: 'Задолженность', name: 'debt', required: true, value: 0 },
             { type: 'select', label: 'Клиент', name: 'customer', options: customersData?.results?.map(c => ({ value: c.id, label: (c.first_name + ' ' + c.last_name) })), required: true },
             { type: 'number', label: 'Общий', name: 'total', required: true },
         ]);
