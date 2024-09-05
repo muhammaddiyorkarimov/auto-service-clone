@@ -1,0 +1,120 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background-color: aliceblue;
+}
+
+.login-page .title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.login-page .title h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.login-page .title p {
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.login-page .form-wrapper {
+    width: 400px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page .form-wrapper form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-page .form-wrapper form .input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    border: 1px solid var(--input-border-color);
+    padding: 10px 20px;
+}
+
+.login-page .form-wrapper form .branches {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-page .form-wrapper form .branches .branch-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-page .form-wrapper form .input-wrapper input {
+    background-color: transparent;
+    border: none;
+}
+
+.login-page .form-wrapper form .branches .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 40%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.login-page .form-wrapper form .branches.active .dropdown {
+    opacity: 1;
+    visibility: visible;
+    max-height: 250px;
+}
+
+.login-page .form-wrapper form .branches .dropdown span {
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.login-page .form-wrapper form .branches .dropdown span:hover {
+    background-color: #f1f1f1;
+}
+
+.login-page .form-wrapper form button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-weight: 500;
+    border: none;
+    transition: 0.1s ease;
+}
+
+.login-page .form-wrapper form button:hover {
+    background-color: #425cddd3;
+}

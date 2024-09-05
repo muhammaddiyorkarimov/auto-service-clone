@@ -1,0 +1,11 @@
+.validation-error {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(252, 90, 90, 0.5);
+    color: var(--secondary-color);
+}

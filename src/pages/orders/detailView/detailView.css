@@ -1,0 +1,113 @@
+.order-detail-view {
+    display: flex;
+}
+
+.order-detail-view .navbar {
+    padding: 12px 0 !important;
+}
+
+.order-detail-view main {
+    height: 100%;
+    width: 100%;
+    display: flex !important;
+    flex-direction: column;
+}
+
+.order-detail-view .error-message {
+    width: max-content !important;
+    position: fixed;
+    top: 20px;
+    left: 50% !important;
+}
+
+.order-detail-view main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.card-item {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+    margin-top: 10px;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.card-item .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.grid-item-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media print {
+    .MuiDialogActions-root {
+        display: none;
+    }
+}
+
+.line {
+    width: 200px;
+    height: 1px;
+    background-color: black;
+    color: black;
+}
+
+.oreder-details-wrapper table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.oreder-details-wrapper table, th, td {
+    padding: 5px;
+}
+
+.oreder-details-wrapper table thead th {
+    text-align: left;
+    vertical-align: top;
+}
+
+.oreder-details-wrapper table thead th[rowspan="2"] {
+    width: 20%;
+}
+
+.oreder-details-wrapper table thead td {
+    text-align: left;
+}
+
+.oreder-details-wrapper table thead td {
+    width: 30%;
+}
+
+.oreder-details-wrapper table tbody th, 
+.oreder-details-wrapper table tbody td {
+    text-align: left;
+}
+
+.oreder-details-wrapper table th p,
+.oreder-details-wrapper table td p {
+    font-weight: 400;
+    margin: 0;
+}

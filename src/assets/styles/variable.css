@@ -1,0 +1,12 @@
+:root {
+    --primary-color: #fff;
+    --secondary-color: #000;
+    --primary-background-color: aliceblue;
+    --background-color: #425BDD;
+    --background-lighter-color: #E2ECF9;
+    --text-color: #1C274C;
+    --text-lighter-color: #878787;
+    --check-color: #00B087;
+    --input-border-color: #E2ECF9;
+    --row-color: #878787;
+}

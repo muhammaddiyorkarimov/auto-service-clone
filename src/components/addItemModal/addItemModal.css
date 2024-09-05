@@ -1,0 +1,17 @@
+.flex-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .flex-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .flex-content .MuiAutocomplete-root {
+    flex: 1;
+  }
+  

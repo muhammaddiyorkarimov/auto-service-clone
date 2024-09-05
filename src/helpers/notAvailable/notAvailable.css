@@ -1,0 +1,9 @@
+.not-available {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-border-color);
+    color: var(--text-color);
+    border-radius: 10px 10px 0 0;
+}

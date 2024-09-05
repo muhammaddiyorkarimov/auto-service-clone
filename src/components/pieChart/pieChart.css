@@ -1,0 +1,9 @@
+.pie-chart-container:focus {
+    outline: none;
+}
+
+.pie-chart-container .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
