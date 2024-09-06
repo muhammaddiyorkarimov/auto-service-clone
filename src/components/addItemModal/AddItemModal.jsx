@@ -31,17 +31,20 @@ function AddItemModal({ name, open, onClose, onSave, formConfig, expensesType })
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-
+  
     if (type === 'text' && formConfig?.find((field) => field.name === name && field.type === 'number')) {
       const rawValue = value.replace(/\s/g, '');
-      if (/^\d*$/.test(rawValue)) { 
+  
+      // Allow numbers with a decimal point (e.g., 7.5)
+      if (/^\d*\.?\d*$/.test(rawValue)) {
         const formattedValue = formatNumberWithSpaces(rawValue);
         setFormData({ ...formData, [name]: formattedValue });
       }
     } else {
       setFormData({ ...formData, [name]: value });
     }
-
+  
+    // Reset validation errors for the field
     setValidationErrors({ ...validationErrors, [name]: '' });
   };
 
