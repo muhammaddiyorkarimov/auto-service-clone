@@ -34,6 +34,7 @@ function OurProduct() {
     const [errorMsg, setErrorMsg] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
     const [rowDetailOpen, setRowDetailOpen] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const [params, setQueryParams] = useQueryParams();
     const [page, setPage] = useState(Number(params.get('page')) || 1);
@@ -46,7 +47,7 @@ function OurProduct() {
 
     const fetchOrderProduct = useCallback((query) => {
         return OurProductService.getProduct(query);
-    }, []);
+    }, [refresh]);
 
     const { data, loading, error } = useFetch(fetchOrderProduct, { page, page_size: pageSize, search: searchQuery, import_required: availableFilter, order_by: selectedFilter });
     const { data: providersData } = useFetch(Provider.getProvider);
@@ -138,9 +139,7 @@ function OurProduct() {
             setProvider(updatedProvider);
             setSuccessMsg("Успешно добавлено");
             setSnackbarOpen(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            setRefresh((prev) => !prev);
         } catch (error) {
             setErrorMsg(error.message || "Ошибка при добавлении продукта!");
             setSnackbarOpen(true);
