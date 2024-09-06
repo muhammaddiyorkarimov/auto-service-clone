@@ -19,7 +19,7 @@ import DeleteProduct from '../../components/deleteProduct/DeleteProduct'
 import ExpensesType from './expensesType/ExpensesType'
 import { useNavigate } from 'react-router-dom'
 
-function ExpensesTypeC({isChecked}) {
+function ExpensesTypeC({handleAddE}) {
 
     const navigate = useNavigate()
 
@@ -44,7 +44,11 @@ function ExpensesTypeC({isChecked}) {
     const [pageSize] = useState(15);
     const [searchQuery, setSearchQuery] = useState(params.get('search') || '');
 
-    const { data: expensesType, loading, error } = useFetch(ExpensesTypeService.getExpensesTypeService)
+    const fetchExpensesType = useCallback((query) => {
+        return ExpensesTypeService.getExpensesTypeService(query);
+    }, []);
+
+    const { data: expensesType, loading, error } = useFetch(fetchExpensesType, {page, page_size: pageSize, search: searchQuery})
 
     useEffect(() => {
         if (expensesType) {
@@ -192,18 +196,17 @@ function ExpensesTypeC({isChecked}) {
                 <Navbar title='Расходы' />
                 <div className="extra-items">
                     <div className="header-items">
-                        <div>
+                        {/* <div>
                             <SearchInput
                                 searchValue={searchQuery}
                                 onSearchChange={handleSearchChange}
                             />
-                        </div>
+                        </div> */}
                         <div className="header-items-add">
                             <FormGroup>
                                 <FormControlLabel onChange={handleCheckboxChange} control={<Checkbox defaultChecked />} label="тип расхода" labelPlacement='start'/>
                             </FormGroup>
                             <ExpensesType onNewExpenseType={handleNewExpensesType} />
-                            <AddItemBtn name="Добавить расход" onClick={handleAdd} />
                         </div>
                     </div>
                     <section className="details-wrapper">

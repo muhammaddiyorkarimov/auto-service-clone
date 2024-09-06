@@ -3,6 +3,7 @@ import axios from '../api'
 const ExpensesService = {
     async getExpensesService(searchQuery = '') {
         try {
+            console.log(searchQuery)
             const response = await axios.get(`/stats/expenses/?${searchQuery}&order_by=-created_at`);
             return {
                 results: response.data.results,

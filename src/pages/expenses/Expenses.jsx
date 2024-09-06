@@ -146,7 +146,7 @@ function Expenses() {
     };
 
     const updateProduct = async (formData) => {
-        try {
+            try {
             const updatedData = {
                 type: formData.name ? formData.name : formData.name,
                 price: formData.price,

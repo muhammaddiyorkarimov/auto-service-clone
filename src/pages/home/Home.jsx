@@ -48,11 +48,11 @@ function Home() {
   return (
     <div className="home">
       <SideBar />
-      <main>
+      <main style={{height: '100vh'}}>
         <Navbar title="Главная" />
         <div className="extra-items">
           <div className="header">
-            <div className="items-wrapper">
+            <div className="items-wrapper items-wrapper-2">
               <div className="items">
                 {/* Always render the cards, even if calculateData is empty */}
                 {(calculateData && calculateData.length > 0 ? calculateData : [
