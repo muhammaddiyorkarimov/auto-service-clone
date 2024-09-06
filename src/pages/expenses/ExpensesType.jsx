@@ -19,10 +19,11 @@ import DeleteProduct from '../../components/deleteProduct/DeleteProduct'
 import ExpensesType from './expensesType/ExpensesType'
 import { useNavigate } from 'react-router-dom'
 
-function Expenses() {
+function ExpensesTypeC({isChecked}) {
 
-    const headers = tableHeaders['expenses']
     const navigate = useNavigate()
+
+    const headers = tableHeaders['expensesType']
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
@@ -36,29 +37,20 @@ function Expenses() {
     const [editFormConfig, setEditFormConfig] = useState([]);
     const [rowDetailOpen, setRowDetailOpen] = useState(false);
     const [expensesTypeData, setExpensesTypeData] = useState([]);
-    const [checked, setChecked] = useState(false);
-    const [refresh, setRefresh] = useState(false);
+    const [checked, setChecked] = useState(true);
 
     const [params, setQueryParams] = useQueryParams();
     const [page, setPage] = useState(Number(params.get('page')) || 1);
     const [pageSize] = useState(15);
     const [searchQuery, setSearchQuery] = useState(params.get('search') || '');
 
-    const fetchOrders = useCallback((query) => {
-        return ExpensesService.getExpensesService(query);
-    }, [refresh]);
-
-    const { data, loading, error } = useFetch(fetchOrders, { page, page_size: pageSize, search: searchQuery });
-    const { data: expensesType } = useFetch(ExpensesTypeService.getExpensesTypeService)
+    const { data: expensesType, loading, error } = useFetch(ExpensesTypeService.getExpensesTypeService)
 
     useEffect(() => {
-        if (data) {
-            setProduct(data.results)
-        }
         if (expensesType) {
             setExpensesTypeData(expensesType.results)
         }
-    }, [data, expensesType]);
+    }, [expensesType]);
 
 
     useEffect(() => {
@@ -88,8 +80,8 @@ function Expenses() {
 
     const handleDeleteConfirm = async () => {
         try {
-            await ExpensesService.deleteExpensesService(currentItem);
-            setProduct(product.filter((c) => c.id !== currentItem));
+            await ExpensesTypeService.deleteExpensesTypeService(currentItem);
+            setExpensesTypeData(expensesTypeData.filter((c) => c.id !== currentItem));
             setSuccessMsg('Успешно удалено!');
             setSnackbarOpen(true);
         } catch (error) {
@@ -106,26 +98,22 @@ function Expenses() {
 
     const handleAdd = () => {
         setFormConfig([
-            { type: 'select', label: 'Тип расхода', name: 'name', options: expensesTypeData?.reverse().map(p => ({ value: p.id, label: p.name })), required: true },
-            { type: 'number', label: 'Цена', name: 'price', required: true },
-            { type: 'text', label: 'Описание', name: 'description', required: true },
+            { type: 'text', label: 'тип расхода', name: 'name', required: true },
         ]);
         setAddOpen(true);
     };
 
 
     const createProduct = async (item) => {
+
         const postProduct = {
-            type: item.name,
-            price: item.price,
-            description: item.description,
+            name: item.name,
         }
         try {
-            const newProduct = await ExpensesService.postExpensesService(postProduct);
-            setProduct([...product, newProduct]);
+            const newProduct = await ExpensesTypeService.postExpensesTypeService(postProduct);
+            setExpensesTypeData([...expensesTypeData, newProduct]);
             setSuccessMsg("Расход успешно добавлен!");
             setSnackbarOpen(true);
-            setRefresh((prev) => !prev);
         } catch (error) {
             setErrorMsg(error.message || "Ошибка при добавлении расхода!");
             setSnackbarOpen(true);
@@ -138,26 +126,24 @@ function Expenses() {
     const handleEdit = (item) => {
         setCurrentItem(item);
         setEditFormConfig([
-            { type: 'select', label: 'Тип расхода', name: 'name', value: item.name, options: expensesType?.results?.map(p => ({ value: p.id, label: p.name })), required: true },
-            { type: 'number', label: 'Цена', name: 'price', value: item.price, required: true },
-            { type: 'text', label: 'Описание', name: 'description', value: item.description, required: true },
+            { type: 'text', label: 'тип расхода', name: 'name', value: item.name, required: true },
         ]);
         setEditOpen(true);
     };
 
     const updateProduct = async (formData) => {
+        console.log(formData);
         try {
             const updatedData = {
-                type: formData.name ? formData.name : formData.name,
-                price: formData.price,
-                description: formData.description,
+                name: formData.name ? formData.name : formData.name,
             };
-
+            console.log(updatedData);
+            
             await ExpensesService.putExpensesService(currentItem.id, updatedData);
 
             const updatedItem = await ExpensesService.getExpensesServiceById(currentItem.id);
 
-            setProduct(product.map((p) => (p.id === currentItem.id ? updatedItem : p)));
+            setExpensesTypeData(expensesTypeData.map((p) => (p.id === currentItem.id ? updatedItem : p)));
             setSuccessMsg("Расход успешно обновлен!");
             setSnackbarOpen(true);
         } catch (error) {
@@ -167,24 +153,14 @@ function Expenses() {
             setEditOpen(false);
         }
     };
-
-    function formatNumberWithCommas(number) {
-        return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-
-    const formattedData = product?.map((item, index) => {
+    
+    const formattedData = expensesTypeData?.map((item, index) => {
         return {
             ...item,
             row: (
                 <>
                     <td>{index + 1}</td>
-                    <td>{item.type?.name}</td>
-                    <td>{formatNumberWithCommas(item.price)}</td>
-                    <td>
-                        {item.description?.length > 30
-                            ? `${item.description?.slice(0, 30)}...`
-                            : item.description}
-                    </td>
+                    <td>{item.name}</td>
                 </>
             ),
         };
@@ -200,6 +176,7 @@ function Expenses() {
         setChecked(event.target.checked); // Checkboxning holatini yangilash
     };
 
+   
     useEffect(() => {
         if (checked) {
             navigate('/expenses-type'); 
@@ -207,7 +184,6 @@ function Expenses() {
             navigate('/expenses');
         }
     }, [checked, navigate]); 
-
 
     return (
         <div className='expenses'>
@@ -224,9 +200,9 @@ function Expenses() {
                         </div>
                         <div className="header-items-add">
                             <FormGroup>
-                                <FormControlLabel onChange={handleCheckboxChange} control={<Checkbox />} label="тип расхода" labelPlacement='start'/>
+                                <FormControlLabel onChange={handleCheckboxChange} control={<Checkbox defaultChecked />} label="тип расхода" labelPlacement='start'/>
                             </FormGroup>
-                            <ExpensesType isChecked={checked} onNewExpenseType={handleNewExpensesType} />
+                            <ExpensesType onNewExpenseType={handleNewExpensesType} />
                             <AddItemBtn name="Добавить расход" onClick={handleAdd} />
                         </div>
                     </div>
@@ -240,10 +216,12 @@ function Expenses() {
                             onEdit={handleEdit}
                             onRowClick={handleRowClick}
                             showEditDelete={true}
+                            showEdit={true}
+                            dNone={false}
                         />
                     </section>
                     <CustomPagination
-                        count={data?.count ? Math.ceil(data.count / pageSize) : 0}
+                        count={expensesType?.count ? Math.ceil(expensesType.count / pageSize) : 0}
                         page={page}
                         onChange={handlePageChange}
                     />
@@ -295,55 +273,9 @@ function Expenses() {
                     {successMsg || errorMsg}
                 </Alert>
             </Snackbar>
-
-            {rowDetailOpen && currentItem && (
-                <Dialog
-                    open={rowDetailOpen}
-                    onClose={() => setRowDetailOpen(false)}
-                    PaperProps={{
-                        style: {
-                            minWidth: '400px',
-                            borderRadius: 15,
-                            padding: '20px',
-                            backgroundColor: '#f5f5f5',
-                            boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
-                        }
-                    }}
-                >
-                    <DialogTitle sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        backgroundColor: '#1e88e5',
-                        color: '#fff',
-                        borderTopLeftRadius: 15,
-                        borderTopRightRadius: 15
-                    }}>
-                        <Typography variant="h6">Детали расхода</Typography>
-                        <IconButton onClick={() => setRowDetailOpen(false)} style={{ color: '#fff' }}>
-                            <Close />
-                        </IconButton>
-                    </DialogTitle>
-                    <Divider />
-                    <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        <Typography variant="body1"><strong>Тип расхода:</strong> {currentItem?.type?.name}</Typography>
-                        <Typography variant="body1"><strong>Цена:</strong> {formatNumberWithCommas(currentItem.price)}</Typography>
-                        <Typography variant="body1"><strong>Описание:</strong> {currentItem.description}</Typography>
-                        <Typography variant="body1"><strong>Дата создания:</strong> {new Date(currentItem.created_at).toLocaleDateString()}</Typography>
-                    </DialogContent>
-                    <DialogActions sx={{ justifyContent: 'space-between', padding: '0 20px 20px 20px' }}>
-                        <IconButton onClick={() => handleEdit(currentItem)}>
-                            <Edit style={{ color: 'orange', fontSize: '28px' }} />
-                        </IconButton>
-                        <Button onClick={() => setRowDetailOpen(false)} sx={{ color: '#1e88e5', fontWeight: 'bold' }}>
-                            Закрыть
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            )}
         </div>
 
     )
 }
 
-export default Expenses
+export default ExpensesTypeC

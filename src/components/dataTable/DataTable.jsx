@@ -5,7 +5,7 @@ import Loader from '../../helpers/loader/Loader';
 import './DataTable.css';
 import NotAvailable from './../../helpers/notAvailable/NotAvailale';
 
-function DataTable({ loading, error, tableHead, data, onDelete, onEdit, onRowClick, onSave, formConfig, dNone, showEditDelete, dDelete }) {
+function DataTable({showEdit, loading, error, tableHead, data, onDelete, onEdit, onRowClick, onSave, formConfig, dNone, showEditDelete, dDelete }) {
     const [inputValues, setInputValues] = useState({});
     const [validationErrors, setValidationErrors] = useState({});
 
@@ -74,7 +74,7 @@ function DataTable({ loading, error, tableHead, data, onDelete, onEdit, onRowCli
                             <td className='table-actions'>
                                 {showEditDelete ? <>
                                     <IconButton onClick={() => onEdit(item)}>
-                                        <i className="fa-regular fa-pen-to-square" style={{ color: 'orange', fontSize: '18px' }}></i>
+                                        {!showEdit && <i className="fa-regular fa-pen-to-square" style={{ color: 'orange', fontSize: '18px' }}></i>}
                                     </IconButton>
                                     {dDelete === false ? '' : <IconButton onClick={() => onDelete(item)}>
                                         <i className="fa-regular fa-trash-can" style={{ color: 'red', fontSize: '18px' }}></i>

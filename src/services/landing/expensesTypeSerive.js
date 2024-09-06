@@ -3,7 +3,7 @@ import axios from '../api'
 const ExpensesTypeService = {
     async getExpensesTypeService(searchQuery = '') {
         try {
-            const response = await axios.get(`/stats/expense-types/?${searchQuery}`);
+            const response = await axios.get(`/stats/expense-types/?${searchQuery}&order_by=-created_at`);
             return {
                 results: response.data.results,
                 count: response.data.count

@@ -19,6 +19,7 @@ import AddOrder from './pages/orders/addOrder/AddOrder';
 import Managers from './pages/managers/Managers';
 import Workers from './pages/workers/Workers';
 import Salary from './pages/salary/Salary';
+import ExpensesTypeC from './pages/expenses/ExpensesType';
 
 function App() {
     const routes = createBrowserRouter(
@@ -45,6 +46,7 @@ function App() {
                     <Route path="/adding-order" element={<AddOrder />} />
                     <Route path="/import-products" element={<Import />} />
                     <Route path="/salary" element={<Salary />} />
+                    <Route path="/expenses-type" element={<ExpensesTypeC />} />
                 </Route>
 
             </>

@@ -94,7 +94,7 @@ function ExpensesType({ onNewExpenseType }) {
                     <AlertTitle>{error}</AlertTitle>
                 </Alert>
             )}
-            <AddItemBtn className='flex-expenses-type' onClick={() => setOpen(true)} />
+            <AddItemBtn name='Добавить тип расхода' className='flex-expenses-type' onClick={() => setOpen(true)} />
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <div className="dialog-wrapper">
                     <DialogTitle>Добавить тип расхода</DialogTitle>

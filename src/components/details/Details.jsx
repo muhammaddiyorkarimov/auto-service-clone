@@ -56,6 +56,10 @@ export const tableHeaders = {
     'Цена',
     'Описание',
   ],
+  expensesType: [
+    'Тип расхода',
+    // 'Дата'
+  ],
   provider: [
     'Имя',
     'Номер телефона',
