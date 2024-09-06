@@ -47,6 +47,8 @@ function Home() {
 
   const descriptionColors = ["#c70000", "green", "blue"];
 
+  console.log(benefitBranch)
+
   return (
     <div className="home">
       <SideBar />
@@ -88,11 +90,11 @@ function Home() {
                   <div className="about">
                     {benefitBranchLoading ? (
                       <BiLoader />
-                    ) : benefitBranch?.data ? ( 
+                    ) : benefitBranch ? ( 
                       <>
                         <div className="title">Касса</div>
                         <div className="description" style={{ color: 'blue' }}>
-                          {formatNumberWithCommas(benefitBranch?.data?.branch?.balance)} СУМ
+                          {formatNumberWithCommas(benefitBranch?.branch?.balance)} СУМ
                         </div>
                       </>
                     ) : (
