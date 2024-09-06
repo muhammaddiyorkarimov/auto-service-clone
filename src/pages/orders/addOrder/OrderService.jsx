@@ -4,6 +4,7 @@ import useFetch from '../../../hooks/useFetch';
 import FormData from './FormData';
 import AutoServices from './../../../services/landing/autoService';
 import EmployeesService from './../../../services/landing/employees';
+import WorkersService from './../../../services/landing/workers';
 
 function OrderingService({ onTotalChange, onSave }) {
     const [formConfig, setFormConfig] = useState([]);
@@ -21,7 +22,10 @@ function OrderingService({ onTotalChange, onSave }) {
 
     const { data: service } = useFetch(AutoServices.getAutoService);
     const { data: serviceById } = useFetch(fetchService);
-    const { data: staffData } = useFetch(EmployeesService.getEmployees);
+    const { data: staffData } = useFetch(WorkersService.getWorkers);
+
+    console.log(staffData)
+    
 
     useEffect(() => {
         if (service) {
@@ -43,7 +47,7 @@ function OrderingService({ onTotalChange, onSave }) {
     const handleAddService = () => {
         setFormConfig([
             {
-                type: 'select', label: 'Сотрудник', name: 'worker', options: staffData?.map(p => ({
+                type: 'select', label: 'Сотрудник', name: 'worker', options: staffData?.results.map(p => ({
                     value: p.id,
                     label: p.first_name ? `${p.first_name} ${p.last_name}` : `Ismsiz`
                 })), required: true
@@ -87,7 +91,6 @@ function OrderingService({ onTotalChange, onSave }) {
                     onServiceIdChange={onServiceChange}
                     price={price}
                 />
-
                 <table>
                     <thead>
                         <tr>

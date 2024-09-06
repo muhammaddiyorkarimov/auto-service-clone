@@ -43,22 +43,23 @@ function FormData({ onSave, formConfig, onCustomerIdChange, onManagerIdChange, o
 
     const handleChange = (e, type) => {
         let { name, value } = e.target;
-
+    
         if (type === 'number') {
             const plainNumber = value.replace(/\s/g, '');
-
-            if (/^\d*$/.test(plainNumber)) {
+    
+            // Faqat raqam va bitta nuqtaga ruxsat beruvchi regex
+            if (/^\d*\.?\d*$/.test(plainNumber)) {
                 const formattedValue = formatNumberWithCommas(plainNumber);
-
+    
                 setFormData(prevData => ({
                     ...prevData,
-                    [name]: plainNumber 
+                    [name]: plainNumber
                 }));
             }
         } else {
             setFormData(prevData => ({
                 ...prevData,
-                [name]: value 
+                [name]: value
             }));
         }
     };
