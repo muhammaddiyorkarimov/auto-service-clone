@@ -15,27 +15,41 @@ function FormData({ onSave, formConfig, onCustomerIdChange, onManagerIdChange, o
     useEffect(() => {
         if (price > 0) {
             const { part } = formData;
-            const total = price * part;
+            let total = price * part;
+    
+            // Round the total to 3 decimal places
+            total = Math.round(total * 1000) / 1000;
+    
             setFormData(prevData => ({
                 ...prevData,
                 total
             }));
         }
     }, [price, formData?.amount, formData?.discount, formData?.part]);
+    
 
     useEffect(() => {
         if (productPrice > 0) {
             const amount = formData?.amount || 0;
             const discount = formData?.discount || 0;
-            const discountValue = ((amount * productPrice * discount) / 100);
-            const total = (productPrice * amount) - discountValue;
-
+            let total = 0;
+    
+            if (discount <= 100) {
+                // Agar chegirma 100 va undan kichik bo'lsa, foiz bo'yicha hisoblash
+                const discountValue = ((amount * productPrice * discount) / 100);
+                total = (productPrice * amount) - discountValue;
+            } else {
+                // Agar chegirma 100 dan katta bo'lsa, to'g'ridan to'g'ri chegirma miqdorini ayirish
+                total = (productPrice * amount) - discount;
+            }
+    
             setFormData(prevData => ({
                 ...prevData,
                 total: isNaN(total) ? 0 : total
             }));
         }
     }, [productPrice, formData?.amount, formData?.discount]);
+    
 
     function formatNumberWithCommas(number) {
         return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");

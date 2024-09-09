@@ -165,6 +165,11 @@ function Orders() {
         row: (
             <>
                 <td>{index + 1}</td>
+                <td>{new Date(item.created_at).toLocaleDateString('en-GB', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                        })}</td>
                 <td>{formatNumberWithCommas(item.paid)}</td>
                 <td>{formatNumberWithCommas(item.debt)}</td>
                 <td>{item.customer ? item.customer.first_name + ' ' + item.customer.last_name : '0'}</td>

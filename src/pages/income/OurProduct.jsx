@@ -230,7 +230,7 @@ function OurProduct() {
                     {item.name}
                 </td>
                 <td>{item.code}</td>
-                <td>{item.amount}</td>
+                <td>{item.amount ? Math.round(item.amount * 1000) / 1000 : 0}</td>
                 <td>{item.unit}</td>
                 <td>{formatNumberWithCommas(item.import_price)}</td>
                 <td>{formatNumberWithCommas(item.export_price)}</td>
