@@ -25,13 +25,14 @@ function Home() {
   const { data: topCalculate, loading: topCalculateLoading, error: topCalculateError } = useFetch(Statistics.getTopCalculate);
   const { data: benefitBranch, loading: benefitBranchLoading, error: benefitBranchError } = useFetch(getUser);
 
-  
+
 
   const productColumns = ["Название", "Количество", "Прибыль"];
 
+
   const productData = topProducts ? topProducts?.map(product => ({
     name: product.product.name,
-    amount: formatNumberWithCommas(product.product.amount),
+    amount: formatNumberWithCommas(product.product.amount ? Math.round(product.product.amount * 1000) / 1000 : 0),
     total_benefit: formatNumberWithCommas(product.product.total_benefit),
   })) : [];
 
@@ -90,7 +91,7 @@ function Home() {
                   <div className="about">
                     {benefitBranchLoading ? (
                       <BiLoader />
-                    ) : benefitBranch ? ( 
+                    ) : benefitBranch ? (
                       <>
                         <div className="title">Касса</div>
                         <div className="description" style={{ color: 'blue' }}>
@@ -138,11 +139,11 @@ function Home() {
               <div className="top-products">
                 <div className="title">Топ товары</div>
                 <TopTableComponent
-  loading={topProductsLoading}
-  error={topProductsError ? topProductsError.message : null} // Pass only the error message or null
-  columns={productColumns}
-  data={productData}
-/>
+                  loading={topProductsLoading}
+                  error={topProductsError ? topProductsError.message : null} // Pass only the error message or null
+                  columns={productColumns}
+                  data={productData}
+                />
 
               </div>
             </div>

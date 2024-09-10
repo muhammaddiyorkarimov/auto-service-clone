@@ -36,7 +36,7 @@ function ActiveReports() {
                     <BiLoader className="loader-icon" />
                 </div>
             ) : (
-                <ResponsiveContainer width='100%' height={170}>
+                <ResponsiveContainer width='100%' height={220}>
                     <AreaChart
                         className='active-reports'
                         data={transformedData}

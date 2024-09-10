@@ -102,7 +102,7 @@ function PieChartC({ startDate, endDate }) {
                 <BiPrinter onClick={handlePrint} style={{ cursor: 'pointer', fontSize: '25px', marginLeft: '10px' }} /></div>
             {loading ? <BiLoader /> : error ? <p>{error.message}</p> : (
                 <>
-                    <PieChart width={400} height={170}>
+                    <PieChart width={400} height={220}>
                         <Pie
                             dataKey="users"
                             isAnimationActive={true}
