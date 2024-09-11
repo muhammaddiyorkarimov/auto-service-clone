@@ -16,19 +16,38 @@ import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { getUser } from '../../services/auth/auth';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress, Alert } from '@mui/material';
 
 function Home() {
   const [startDate, setStartDate] = useState(dayjs().startOf('month'));
   const [endDate, setEndDate] = useState(dayjs().endOf('month'));
+  const [open, setOpen] = useState(false); // Modal open state
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const { data: topProducts, loading: topProductsLoading, error: topProductsError } = useFetch(Statistics.getTopProducts);
   const { data: topCalculate, loading: topCalculateLoading, error: topCalculateError } = useFetch(Statistics.getTopCalculate);
   const { data: benefitBranch, loading: benefitBranchLoading, error: benefitBranchError } = useFetch(getUser);
-
-
+  const { data: walletData, loading: walletDataLoading, error: walletDataError } = useFetch(Statistics.getWallet, false);
 
   const productColumns = ["Название", "Количество", "Прибыль"];
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleConfirm = async () => {
+    try {
+      const response = await Statistics.getWallet();
+      if (response?.success) {
+        setOpen(false);
+        alert('Успешный')
+      } else {
+        setErrorMessage('Произошла ошибка. Попробуйте снова.');
+      }
+    } catch (error) {
+      setErrorMessage('Не удалось выполнить запрос.');
+    }
+  };
 
   const productData = topProducts ? topProducts?.map(product => ({
     name: product.product.name,
@@ -47,8 +66,6 @@ function Home() {
   }
 
   const descriptionColors = ["#c70000", "green", "blue"];
-
-  console.log(benefitBranch)
 
   return (
     <div className="home">
@@ -87,7 +104,7 @@ function Home() {
               </div>
 
               <div className="benefit-branch">
-                <div className="item">
+                <div className="item" onClick={handleOpen}> {/* Open modal on click */}
                   <div className="about">
                     {benefitBranchLoading ? (
                       <BiLoader />
@@ -101,15 +118,14 @@ function Home() {
                     ) : (
                       <div>Касса: 0</div>
                     )}
-
                   </div>
                   <div className="img">
                     <img src={img3} alt='daromad' />
                   </div>
+                  </div>
                 </div>
-              </div>
-              <div className="filter-section">
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <div className="filter-section">
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     sx={{marginRight: '20px'}}
                     label="Start Date"
@@ -127,29 +143,46 @@ function Home() {
                     maxDate={dayjs().endOf('month')}
                   />
                 </LocalizationProvider> */}
+                </div>
+              </div>
+            </div>
+            <div className="main">
+              <ActiveReports />
+              <PieChartC startDate={startDate} endDate={endDate} />
+            </div>
+            <div className="footer">
+              <div className="cards">
+                <div className="top-products">
+                  <div className="title">Топ товары</div>
+                  <TopTableComponent
+                    loading={topProductsLoading}
+                    error={topProductsError ? topProductsError.message : null} // Pass only the error message or null
+                    columns={productColumns}
+                    data={productData}
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div className="main">
-            <ActiveReports />
-            <PieChartC startDate={startDate} endDate={endDate} />
-          </div>
-          <div className="footer">
-            <div className="cards">
-              <div className="top-products">
-                <div className="title">Топ товары</div>
-                <TopTableComponent
-                  loading={topProductsLoading}
-                  error={topProductsError ? topProductsError.message : null} // Pass only the error message or null
-                  columns={productColumns}
-                  data={productData}
-                />
-
-              </div>
-            </div>
-          </div>
-        </div>
       </main>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Обнулить кассу</DialogTitle>
+        <DialogContent>
+          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+          {walletDataLoading ? (
+            <BiLoader />
+          ) : (
+            <div>Вы уверены, что хотите обнулить баланс?</div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">Отмена</Button>
+          <Button onClick={handleConfirm} color="primary" disabled={walletDataLoading}>
+            {walletDataLoading ? <BiLoader size={24} /> : 'Подтвердить'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import axios from '../api'
 
 const Branch = {
-    async getbranch(query = '', orderBy = 'name') {
+    async getbranch() {
         try {
             // Parametrlarni URL-encode qilib, so'rov yuborish
-            const response = await axios.get(`/main/branchs/?search=${encodeURIComponent(query)}&order_by=${encodeURIComponent(orderBy)}`);
-            return response.data;
+            const response = await axios.get(`/main/branches/`);
+            return response.data.results;
         } catch (error) {
             throw error.response || new Error('Unknown error');
         }

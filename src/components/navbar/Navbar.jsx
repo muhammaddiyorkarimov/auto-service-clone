@@ -13,6 +13,7 @@ function Navbar({ title }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -20,6 +21,8 @@ function Navbar({ title }) {
       localStorage.setItem('first_name', user.first_name);
       localStorage.setItem('last_name', user.last_name);
       localStorage.setItem('position', user.position);
+      localStorage.setItem('phone_number', user?.branch?.phone_number);
+      localStorage.setItem('address', user?.branch?.address);
       localStorage.setItem('branch_name', user?.branch?.name || '');
     }
   }, [user]);

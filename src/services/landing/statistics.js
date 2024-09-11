@@ -1,6 +1,14 @@
 import axios from '../api'
 
 const Statistics = {
+    async getWallet() {
+        try {
+            const response = await axios.get(`/main/get-wallet/`)
+            return response.data
+        } catch (error) {
+            throw error.response || new Error('Unknow error')
+        }
+    },
     async getActiveReports() {
         try {
             const response = await axios.get(`/statistics/monthly-total/`)
