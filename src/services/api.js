@@ -23,7 +23,6 @@ api.interceptors.response.use(config => config, error => {
     if(error?.response?.status === 401) {
       localStorage.removeItem('access_token');
       window.location = '/login';
-      window.location.reload();
     }
   
     return Promise.reject(error);
